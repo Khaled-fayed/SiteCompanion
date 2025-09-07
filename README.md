@@ -1,3 +1,5 @@
+<img align="center" src="android/app/src/assets/logo.png" width="200" alt="Image description">
+
 ![Site Companion Logo](android/app/src/assets/logo.png){width=200}
 
 <h1 align="center">Site Companion</h1>
