@@ -1,6 +1,9 @@
-<img align="center" src="android/app/src/assets/logo.png" width="300" alt="Site Companion Logo">
+<div align="center">
 
+<img src="android/app/src/assets/logo.png Logo No Buffer.png" width=40% align="center" alt="Site Companion Logo"/>
+<br>
 <h1 align="center">Site Companion</h1>
+</div>
 
 ## A companion App that helps users to manage their site observations and reports.
 
