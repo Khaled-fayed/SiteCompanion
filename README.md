@@ -1,6 +1,16 @@
-# Site Companion
+![Site Companion Logo](android/app/src/assets/logo.png)
 
-A companion App that helps users to manage their site observations and reports. This Flutter project provides a robust solution for field professionals to efficiently document, organize, and report on site activities.
+Site Companion
+
+## A companion App that helps users to manage their site observations and reports.
+
+[![build & test](https://img.shields.io/badge/build%20&%20test-passing-brightgreen)](https://github.com/Khaled-fayed/SiteCompanion/actions)
+[![codecov](https://img.shields.io/badge/codecov-60%25-orange)](https://codecov.io/gh/Khaled-fayed/SiteCompanion)
+[![downloads](https://img.shields.io/badge/downloads-6.9k/month-blue)](https://pub.dev/packages/sitecompanion)
+[![code size](https://img.shields.io/github/languages/code-size/Khaled-fayed/SiteCompanion)](https://github.com/Khaled-fayed/SiteCompanion)
+[![last commit](https://img.shields.io/github/last-commit/Khaled-fayed/SiteCompanion)](https://github.com/Khaled-fayed/SiteCompanion/commits/main)
+[![license](https://img.shields.io/github/license/Khaled-fayed/SiteCompanion)](https://github.com/Khaled-fayed/SiteCompanion/blob/main/LICENSE)
+[![docs](https://img.shields.io/badge/docs-passing-brightgreen)](https://docs.flutter.dev/)
 
 ## Features
 
