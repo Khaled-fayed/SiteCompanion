@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="android/app/src/assets/logo.png Logo No Buffer.png" width=40% align="center" alt="Site Companion Logo"/>
+<img src="https://github.com/Khaled-fayed/SiteCompanion/blob/main/android/app/src/assets/logo.png Logo No Buffer.png" width=40% align="center" alt="Site Companion Logo"/>
 <br>
 <h1 align="center">Site Companion</h1>
 </div>
