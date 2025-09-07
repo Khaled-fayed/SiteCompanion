@@ -158,7 +158,7 @@ class AppDatabase extends _$AppDatabase {
           // Add projectId column with a default value for existing rows
           // This will satisfy the NOT NULL constraint for existing rows
           await m.database.customStatement(
-            'ALTER TABLE ${observations.actualTableName} ADD COLUMN project_id TEXT NOT NULL DEFAULT \'${defaultProjectId!}\' REFERENCES projects (id)',
+            'ALTER TABLE ${observations.actualTableName} ADD COLUMN project_id TEXT NOT NULL DEFAULT \'${defaultProjectId}\' REFERENCES projects (id)',
           );
         }
       },

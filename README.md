@@ -35,7 +35,7 @@ This project is a starting point for a Flutter application.
 
 1. Clone the repository:
    ```bash
-   git clone https://your-repository-link.git
+   git clone https://github.com/Khaled-fayed/SiteCompanion.git
    cd sitecompanion
    ```
 2. Get dependencies:
