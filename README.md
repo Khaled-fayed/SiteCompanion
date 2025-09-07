@@ -1,6 +1,6 @@
-![Site Companion Logo](android/app/src/assets/logo.png)
+![Site Companion Logo](android/app/src/assets/logo.png){width=200}
 
-Site Companion
+<h1 align="center">Site Companion</h1>
 
 ## A companion App that helps users to manage their site observations and reports.
 
