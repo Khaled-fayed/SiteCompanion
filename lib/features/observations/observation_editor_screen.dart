@@ -14,12 +14,14 @@ class ObservationEditorScreen extends StatefulWidget {
   final String projectId;
   final String? areaId; // Made nullable for new observations
   final String? observationId; // Null for new observation
+  final Observation? initialObservation; // Added for pre-populating data
 
   const ObservationEditorScreen({
     super.key,
     required this.projectId,
     this.areaId, // No longer required
     this.observationId,
+    this.initialObservation, // Initialize the new parameter
   });
 
   @override
@@ -31,7 +33,6 @@ class _ObservationEditorScreenState extends State<ObservationEditorScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _noteController;
   late TextEditingController _tagController; // Added for tag input
-  late TextEditingController _areaIdController; // Added for areaId input
   Observation? _initialObservation;
   bool _isLoading = true;
   bool _isSaving = false;
@@ -48,10 +49,15 @@ class _ObservationEditorScreenState extends State<ObservationEditorScreen> {
     super.initState();
     _noteController = TextEditingController();
     _tagController = TextEditingController(); // Initialize tag controller
-    _areaIdController = TextEditingController(
-      text: widget.areaId,
-    ); // Initialize areaId controller
-    if (widget.observationId != null) {
+
+    if (widget.initialObservation != null) {
+      _initialObservation = widget.initialObservation;
+      _noteController.text = _initialObservation!.note ?? '';
+      _photoPath = _initialObservation!.photoPath;
+      _tags = List.from(_initialObservation!.tags);
+      _severity = _initialObservation!.severity;
+      _isLoading = false;
+    } else if (widget.observationId != null) {
       _loadObservation();
     } else {
       _isLoading = false;
@@ -66,9 +72,8 @@ class _ObservationEditorScreenState extends State<ObservationEditorScreen> {
       widget.observationId!,
     );
     if (observation != null) {
-      _initialObservation = observation as Observation?;
+      _initialObservation = observation; // Removed redundant cast
       _noteController.text = _initialObservation!.note ?? '';
-      _areaIdController.text = _initialObservation!.areaId ?? '';
       _photoPath = _initialObservation!.photoPath;
       _tags = List.from(_initialObservation!.tags);
       _severity = _initialObservation!.severity;
@@ -153,7 +158,9 @@ class _ObservationEditorScreenState extends State<ObservationEditorScreen> {
       final newObservation =
           (_initialObservation?.copyWith(
             projectId: widget.projectId,
-            areaId: _areaIdController.text, // Use controller text
+            areaId:
+                _initialObservation?.areaId ??
+                widget.areaId, // Retain existing areaId or use widget.areaId
             note: _noteController.text,
             photoPath: _photoPath,
             tags: _tags,
@@ -161,7 +168,8 @@ class _ObservationEditorScreenState extends State<ObservationEditorScreen> {
           ) ??
           Observation.create(
             projectId: widget.projectId,
-            areaId: _areaIdController.text, // Use controller text
+            areaId: widget
+                .areaId, // Pass widget.areaId, let factory generate if null
             note: _noteController.text,
             photoPath: _photoPath,
             tags: _tags,
@@ -192,7 +200,6 @@ class _ObservationEditorScreenState extends State<ObservationEditorScreen> {
   void dispose() {
     _noteController.dispose();
     _tagController.dispose(); // Dispose tag controller
-    _areaIdController.dispose(); // Dispose areaId controller
     super.dispose();
   }
 
@@ -211,18 +218,6 @@ class _ObservationEditorScreenState extends State<ObservationEditorScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomTextField(
-                      controller: _areaIdController,
-                      labelText: 'Area ID',
-                      hintText: 'Enter the Area ID (e.g., a UUID)',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Area ID cannot be empty';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
                     CustomTextField(
                       controller: _noteController,
                       labelText: 'Observation Note',

@@ -3,16 +3,18 @@ import 'package:sitecompanion/domain/entities/observation.dart'; // For Observat
 
 class ObservationCard extends StatelessWidget {
   final Observation observation;
+  final String projectName; // Add project name
   final VoidCallback onTap;
   final VoidCallback onDelete;
-  final VoidCallback onEdit;
+  final VoidCallback onView;
 
   const ObservationCard({
     super.key,
     required this.observation,
+    required this.projectName, // Require project name
     required this.onTap,
     required this.onDelete,
-    required this.onEdit,
+    required this.onView,
   });
 
   @override
@@ -26,6 +28,13 @@ class ObservationCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                projectName, // Display project name
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+              const SizedBox(height: 4),
               Text(
                 observation.note ?? 'No note provided',
                 style: Theme.of(context).textTheme.titleMedium,
@@ -47,7 +56,10 @@ class ObservationCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    IconButton(icon: const Icon(Icons.edit), onPressed: onEdit),
+                    IconButton(
+                      icon: const Icon(Icons.visibility),
+                      onPressed: onView,
+                    ),
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: onDelete,

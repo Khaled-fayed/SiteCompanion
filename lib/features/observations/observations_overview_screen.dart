@@ -5,7 +5,10 @@ import 'package:sitecompanion/widgets/empty_state_widget.dart';
 import 'package:sitecompanion/widgets/loading_indicator.dart';
 import 'package:sitecompanion/widgets/observation_card.dart';
 import 'package:sitecompanion/data/repositories/observation_repository.dart';
+import 'package:sitecompanion/data/repositories/project_repository.dart'; // Import ProjectRepository
 import 'package:sitecompanion/domain/entities/observation.dart';
+import 'package:sitecompanion/domain/entities/project.dart'
+    hide Observation; // Import Project entity and hide Observation
 import 'package:get_it/get_it.dart';
 
 class ObservationsOverviewScreen extends StatefulWidget {
@@ -22,6 +25,8 @@ class _ObservationsOverviewScreenState
     extends State<ObservationsOverviewScreen> {
   final ObservationRepository _observationRepository =
       GetIt.I<ObservationRepository>();
+  final ProjectRepository _projectRepository =
+      GetIt.I<ProjectRepository>(); // Initialize ProjectRepository
   late Stream<List<Observation>> _observationsStream;
 
   @override
@@ -57,30 +62,50 @@ class _ObservationsOverviewScreenState
               itemCount: observations.length,
               itemBuilder: (context, index) {
                 final observation = observations[index];
-                return ObservationCard(
-                  observation: observation,
-                  onTap: () {
-                    context.go(
-                      '/projects/${observation.projectId}/observations/${observation.id}',
-                      extra: observation,
-                    );
-                  },
-                  onEdit: () {
-                    context.go(
-                      '/projects/${observation.projectId}/observations/${observation.id}/edit',
-                      extra: observation,
-                    );
-                  },
-                  onDelete: () async {
-                    await _observationRepository.deleteObservation(
-                      observation.id,
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Observation "${observation.note}" deleted.',
-                        ),
-                      ),
+                return FutureBuilder<Project?>(
+                  future: _projectRepository.getProjectById(
+                    observation.projectId,
+                  ),
+                  builder: (context, projectSnapshot) {
+                    if (projectSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const LoadingIndicator(); // Or a placeholder
+                    }
+                    final projectName =
+                        projectSnapshot.data?.propertyName ?? 'Unknown Project';
+                    return ObservationCard(
+                      observation: observation,
+                      projectName: projectName, // Pass project name
+                      onTap: () {
+                        context.go(
+                          '/projects/${observation.projectId}/observations/${observation.id}/view',
+                          extra: {
+                            'observation': observation,
+                            'project': projectSnapshot.data,
+                          },
+                        );
+                      },
+                      onView: () {
+                        context.go(
+                          '/projects/${observation.projectId}/observations/${observation.id}/view',
+                          extra: {
+                            'observation': observation,
+                            'project': projectSnapshot.data,
+                          },
+                        );
+                      },
+                      onDelete: () async {
+                        await _observationRepository.deleteObservation(
+                          observation.id,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Observation "${observation.note}" deleted.',
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 );

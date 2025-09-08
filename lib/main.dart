@@ -81,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
         context.go('/projects');
         break;
       case 2:
-        context.go('/observations');
+        context.goNamed('observationsOverview');
         break;
     }
   }
